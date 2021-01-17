@@ -20,7 +20,8 @@ metadata:
   name: keepalived
 data:
   iface: ens10
-  vips: 192.168.11.12/32 dev eth0
+  vips: 192.168.11.12/32 dev ens10
+  pass: AwesomePasswordLol
 EOF
 ```
 

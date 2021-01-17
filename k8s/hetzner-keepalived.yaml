@@ -28,7 +28,7 @@ subjects:
   name: hetzner-keepalived
   namespace: keepalived
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: hetzner-keepalived
@@ -36,6 +36,9 @@ metadata:
 spec:
   updateStrategy:
     type: RollingUpdate
+  selector:
+    matchLabels:
+      name: hetzner-keepalived
   template:
     metadata:
       labels:
@@ -45,8 +48,8 @@ spec:
       serviceAccount: hetzner-keepalived
       containers:
       - name: hetzner-keepalived
-        image: yoshz/hetzner-keepalived
-        imagePullPolicy: IfNotPresent
+        image: schemen/docker-hetzner-keepalived:latest
+        imagePullPolicy: Always
         securityContext:
           capabilities:
             add: ["NET_ADMIN"]
@@ -69,6 +72,11 @@ spec:
             configMapKeyRef:
               name: keepalived
               key: vips
+        - name: PASS
+          valueFrom:
+            configMapKeyRef:
+              name: keepalived
+              key: pass
       volumes:
       - name: dev
         hostPath:
