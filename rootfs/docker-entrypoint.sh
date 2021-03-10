@@ -20,6 +20,13 @@ global_defs {
     enable_script_security
 }
 
+vrrp_script chk_myscript {
+    script       "/hetzner-check.sh"
+    interval 15  
+    fall 2       # require 2 failures for KO
+    rise 2       # require 2 successes for OK
+}
+
 vrrp_instance vips {
     state BACKUP
     priority ${PRIORITY}
@@ -42,6 +49,10 @@ vrrp_instance vips {
     advert_int 1
     virtual_ipaddress {
         ${VIPS}
+    }
+
+    track_script {
+        chk_myscript
     }
 
     notify /hetzner-notify.sh
