@@ -67,6 +67,11 @@ spec:
             configMapKeyRef:
               name: keepalived
               key: iface
+        - name: FLOATING_IP
+          valueFrom:
+            configMapKeyRef:
+              name: keepalived
+              key: floating_ip
         - name: VIPS
           valueFrom:
             configMapKeyRef:

@@ -1,4 +1,7 @@
-# Hetzner Keepalived
+# Kubernetes Hetzner Keepalived
+
+Originally forked from [yoshz/docker-hetzner-keepalived](https://github.com/yoshz/docker-hetzner-keepalived). This is now improved to run on a Kubernetes cluster.
+
 
 Docker image running keepalived and Hetzner notify script to assign a floating ip to a node with automatic failover.
 
@@ -22,6 +25,7 @@ data:
   iface: ens10
   vips: 192.168.11.12/32 dev ens10
   pass: AwesomePasswordLol
+  floating_ip: 192.168.11.12
 EOF
 ```
 
