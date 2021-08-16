@@ -22,10 +22,11 @@ kind: ConfigMap
 metadata:
   name: keepalived
 data:
-  iface: ens10
-  vips: 192.168.11.12/32 dev ens10
+  iface: ens10 # Use an internal network where VRRP traffic can go over
+  vips: 192.168.11.12/32 dev eth0  
   pass: AwesomePasswordLol
   floating_ip: 192.168.11.12
+  priority: "100" # You can remove this if you want it done automatically (I prefere it set so all are equally on)
 EOF
 ```
 
