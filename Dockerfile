@@ -1,7 +1,6 @@
 FROM alpine
 
-RUN apk add --no-cache bash curl iproute2 keepalived \
-    && rm /etc/keepalived/keepalived.conf
+RUN apk add --no-cache bash curl iproute2 keepalived
 
 COPY rootfs /
 
