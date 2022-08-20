@@ -48,7 +48,7 @@ spec:
       serviceAccount: hetzner-keepalived
       containers:
       - name: hetzner-keepalived
-        image: ghcr.io/schemen/kubernetes-hetzner-keepalived:1.0.0
+        image: ghcr.io/schemen/kubernetes-hetzner-keepalived:master
         imagePullPolicy: Always
         securityContext:
           capabilities:
