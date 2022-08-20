@@ -5,7 +5,7 @@ echo "Executing $0" >>/tmp/master.log
 if grep -q MASTER "/tmp/endstate"; then
 
     SERVER_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/servers?name=$(hostname -f)" | grep -C 2 servers | grep id | awk '{ print $2 }' | sed -e s/,//)
-    FLOATING_IP_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips" | grep "\"ip\": \"${FLOATING_IP}" -B 3  | grep id | awk '{ print $2 }' | sed -e s/,//)
+    FLOATING_IP_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips" | grep "\"ip\": \"${FLOATING_IP}" -B 10  | grep id | awk '{ print $2 }' | sed -e s/,//)
 
     CHECK=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips/$FLOATING_IP_ID" | grep  \"server\": | awk '{ print $2 }' | sed -e s/,//) 
     if [ "$CHECK" == "$SERVER_ID" ] ; then

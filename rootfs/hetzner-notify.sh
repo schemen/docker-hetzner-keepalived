@@ -11,7 +11,7 @@ if [ "$ENDSTATE" == "MASTER" ] ; then
     echo "Transitioning Floating ip to $(hostname -f)..." >>/tmp/master.log
     SERVER_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/servers?name=$(hostname -f)" | grep -C 2 servers | grep id | awk '{ print $2 }' | sed -e s/,//)
     FLOATING_IP=${FLOATING_IP}
-    FLOATING_IP_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips" | grep "\"ip\": \"$FLOATING_IP" -B 3  | grep id | awk '{ print $2 }' | sed -e s/,//)
+    FLOATING_IP_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips" | grep "\"ip\": \"$FLOATING_IP" -B 10  | grep id | awk '{ print $2 }' | sed -e s/,//)
 
     while :
     do
