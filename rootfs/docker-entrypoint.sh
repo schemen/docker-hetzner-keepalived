@@ -9,12 +9,19 @@ PEER_IPS=$(curl -sS --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.cr
     | awk '/"type": "InternalIP"/{getline; gsub(/"/, ""); print $2}' \
     | grep -vw $HOST_IP)
 
+KEEPALIVED_CONFIG=/etc/keepalived/keepalived.conf
+
 if [ -z "$PRIORITY" ]; then
     HOST_ID=$(echo $HOST_IP | grep -o "[0-9]*$")
     PRIORITY=$((100 + $HOST_ID))
 fi
 
-cat <<EOF > /etc/keepalived/keepalived.conf
+if test -f "$KEEPALIVED_CONFIG"; then
+    echo "$KEEPALIVED_CONFIG exists. Deleting..."
+    rm -f $KEEPALIVED_CONFIG
+fi
+
+cat <<EOF > $KEEPALIVED_CONFIG
 global_defs {
     script_user root
     enable_script_security
