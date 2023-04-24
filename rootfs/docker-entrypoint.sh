@@ -27,8 +27,8 @@ global_defs {
 
 vrrp_script chk_myscript {
     script       "/hetzner-check.sh"
-    interval 15  
-    fall 2       # require 2 failures for KO
+    interval 20  
+    fall 3       # require 3 failures for KO
     rise 2       # require 2 successes for OK
 }
 
