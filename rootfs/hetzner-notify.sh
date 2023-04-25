@@ -22,7 +22,7 @@ if [ "$ENDSTATE" == "MASTER" ] ; then
         else
             curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_TOKEN" -d "{\"server\":$SERVER_ID}" "https://api.hetzner.cloud/v1/floating_ips/$FLOATING_IP_ID/actions/assign" >>/tmp/master.log
             echo "Setting Floating IP $FLOATING_IP to $(hostname -f)" >>/tmp/master.log
-            sleep 10
+            sleep 20
         fi
     done
 fi
