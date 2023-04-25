@@ -9,13 +9,13 @@ echo $3 > /tmp/endstate
 
 if [ "$ENDSTATE" == "MASTER" ] ; then
     echo "Transitioning Floating ip to $(hostname -f)..." >>/tmp/master.log
-    SERVER_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/servers?name=$(hostname -f)" | grep -C 2 servers | grep id | awk '{ print $2 }' | sed -e s/,//)
+    SERVER_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/servers?name=$(hostname -f)" | jq '.servers[].id')
     FLOATING_IP=${FLOATING_IP}
-    FLOATING_IP_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips" | grep "\"ip\": \"$FLOATING_IP" -B 10  | grep id | awk '{ print $2 }' | sed -e s/,//)
+    FLOATING_IP_ID=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips" | jq ".floating_ips[] | select (.ip | contains(\"$FLOATING_IP\")).id")
 
     while :
     do
-        CHECK=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips/$FLOATING_IP_ID" | grep  \"server\": | awk '{ print $2 }' | sed -e s/,//) 
+        CHECK=$(curl -s -H "Authorization: Bearer $HETZNER_TOKEN" "https://api.hetzner.cloud/v1/floating_ips/$FLOATING_IP_ID" | jq '.floating_ips[].server') 
         if [ "$CHECK" == "$SERVER_ID" ] ; then
             echo "Floating IP $FLOATING_IP already assigned to server $(hostname -f)"  >>/tmp/master.log
             break

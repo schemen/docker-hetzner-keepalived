@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk add --no-cache bash curl iproute2 keepalived
+RUN apk add --no-cache bash curl iproute2 keepalived jq
 
 COPY rootfs /
 
